@@ -1,6 +1,6 @@
 import numpy as np
 
-from main3 import *
+from main6 import *
 mpl.rcParams['axes.linewidth'] = 2
 mpl.rcParams['xtick.major.width'] = 1.75
 mpl.rcParams['ytick.major.width'] = 1.75
@@ -17,22 +17,22 @@ def plot_font_settings(tick_size=16):
 def plot_residuals(xlabel=r'${}^4{\rm {He}}$ Number density ($10^{25}$ m$^{-3}$)', labelsize=18, axis=None):
     if axis is None:
         plt.xlabel(xlabel, fontsize=labelsize)
-        plt.ylabel(r"$\zeta$ (unitless)", fontsize=labelsize)
+        plt.ylabel(r"$P$ (unitless)", fontsize=labelsize)
         plt.tick_params(axis='both', direction='in', top='true', right='true')
         plt.tight_layout()
         plt.show()
     else:
         axis.set_xlabel(xlabel, fontsize=labelsize)
-        axis.set_ylabel(r"$\zeta$ (unitless)", fontsize=labelsize)
+        axis.set_ylabel(r"$P$ (unitless)", fontsize=labelsize)
         axis.tick_params(axis='both', direction='in', top='true', right='true')
-        # axis.set_ylim(0.068, 0.084)
+        axis.set_ylim(0.5, 0.7)
 
 
 plot_font_settings()
 
 
 t_list = ['100', '150', '200', '250', '300']
-n_list = ['1e25', '1.5e25', '2e25', '2.5e25', '3e25']
+n_list = ['1.0e25', '1.5e25', '2.0e25', '2.5e25', '3.0e25']
 n_legend = [r'$1.0$', r'$1.5$', r'$2.0$', r'$2.5$',
             r'$3.0$']
 
@@ -44,12 +44,12 @@ fig, (ax1, ax2) = plt.subplots(2, sharex='all')
 data_200K_cut = []
 for n, color, legend in zip(n_list, color_list, n_legend):
     data_200K_cut.append(t_ratio_vs_mfp_fit('200', n, plot=True, color=color, axis=ax1, legend=legend,
-                                            xcut=0.1, t_ratio_cut=0.8, t_ratio_cut_lower=0.25))
+                                            xcut=0.1, t_ratio_cut=0.75, t_ratio_cut_lower=0.25))
 
 data_2e25_cut = []
 for t, color in zip(t_list, color_list):
-    data_2e25_cut.append(t_ratio_vs_mfp_fit(t, '2e25', plot=True, color=color, axis=ax2, legend=f'{t} K',
-                                            xcut=0.1, t_ratio_cut=0.8, t_ratio_cut_lower=0.25))
+    data_2e25_cut.append(t_ratio_vs_mfp_fit(t, '2.0e25', plot=True, color=color, axis=ax2, legend=f'{t} K',
+                                            xcut=0.1, t_ratio_cut=0.75, t_ratio_cut_lower=0.25))
 ax1.yaxis.set_label_coords(-.12, .1)
 ax2.yaxis.set_label_coords(-.12, .1)
 plot_default(axis=(ax1, ax2), fig=fig, save=True)
@@ -80,7 +80,7 @@ ax2.axhline(y=unumpy.nominal_values(np.average(mfp_50_2e25_cut)), color='r', lin
 plot_residuals(xlabel=r'Nozzle temperature (K)', axis=ax2)
 
 fig.tight_layout()
-plt.savefig('residuals_zeta.png', dpi=250)
+plt.savefig('residuals_P.png', dpi=250)
 plt.show()
 
 
