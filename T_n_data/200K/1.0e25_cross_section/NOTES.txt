@@ -1,0 +1,2 @@
+omega = 0.8
+(it is usually 0.66)
